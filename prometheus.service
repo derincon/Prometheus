@@ -1,0 +1,29 @@
+[Unit]
+Description=Prometheus
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStart=/prometheus/bin/prometheus \
+    --config.file=/prometheus/conf/prometheus.yml \
+    --storage.tsdb.path=/prometheus/data/ \
+    --web.console.templates=/prometheus/consoles \
+    --web.console.libraries=/prometheus/console_libraries \
+    --storage.tsdb.retention.time=30d \
+    --log.level=info \
+	--log.format=logfmt \
+    --web.page-title=Prometheus Container DEV
+
+[Install]
+WantedBy=multi-user.target
+
+
+CMD        [ "--config.file=/prometheus/conf/prometheus.yml", \
+			 "--storage.tsdb.path=/prometheus/data/", \
+			 "--storage.tsdb.retention.time=30d", \
+             "--web.console.libraries=/prometheus/console_libraries", \
+             "--web.page-title=Prometheus Container DEV", \
+             "--web.console.templates=/prometheus/consoles" ]
