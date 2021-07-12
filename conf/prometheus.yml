@@ -2,6 +2,7 @@
 global:
   scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  query_log_file: /prometheus/query.log
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
@@ -9,7 +10,7 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - 192.168.0.53:9093
+      - 127.0.0.1:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -27,8 +28,8 @@ scrape_configs:
     #     # scheme defaults to 'http'.
 
     static_configs:
-    - targets: [prometheus-uat:9090]
+    - targets: [hostname:9090]
   - job_name: 'DEV'
     static_configs:
-    - targets: [lnx2.strix:9100]
-    - targets: [lnx3.strix:9100]
+    - targets: [hostname:9100]
+    - targets: [hostname:9100]

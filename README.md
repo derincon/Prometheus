@@ -1,14 +1,14 @@
 # Prometheus in Docker managed by Systemd
 Dockerfile to buil prometheus 2.x in Docker managed by systemd 
 
-##Download Prometheus for Linux: 
+## Download Prometheus for Linux: 
 https://prometheus.io/download/
 
-###Build Image
+### Build Image
 ```
 docker build -t davidrepo/prometheus-cti:v1.7 .
 ```
-###Run Container
+### Run Container
 ```
 docker run --privileged -d \
 		--restart always \
