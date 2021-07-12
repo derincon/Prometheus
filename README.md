@@ -1,10 +1,15 @@
 # Prometheus
 Dockerfile to buil prometheus 2.x in Docker managed by systemd 
 
+Download Prometheus for Linux: 
+https://github.com/prometheus/prometheus/releases/download/v2.28.1/prometheus-2.28.1.linux-amd64.tar.gz
+
+
+::Build Image
 docker build -t davidrepo/prometheus-cti:v1.7 .
 
-
-docker run --privileged -d \
+::Run Container
+docker run --privileged -d "\"
 		   --restart always \
 		   --hostname prometheus-dev \
 		   --add-host lnx1.strix:192.168.0.53 \

@@ -1,0 +1,71 @@
+groups:
+- name: alert.rules
+  rules:
+  - alert: MemoryWarning
+    expr: 100*(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 90
+    for: 5m
+    labels:
+      severity: warning
+      customer: Dela
+    annotations:
+      summary: "{{ humanize $value }}%"
+      description: "Node memory is filling up (< 10% left)"
+
+  - alert: MemoryCritical
+    expr: 100*(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 95
+    for: 5m
+    labels:
+      severity: critical
+      customer: Dela
+    annotations:
+      summary: "{{ humanize $value }}%"
+      description: "Host out of memory (< 5% left)"
+
+  - alert: DiskSpaceWarning
+    expr: 100 - 100 * ((node_filesystem_avail_bytes / 1024 / 1024 ) / (node_filesystem_size_bytes / 1024 / 1024)) > 90
+    for: 5m
+    labels:
+      severity: warning
+      customer: Dela
+    annotations:
+      summary: "{{ humanize $value }}%"
+      description: "Disk is filling up (< 10% left)"
+
+  - alert: DiskSpaceCritical
+    expr: 100 - 100 * ((node_filesystem_avail_bytes / 1024 / 1024 ) / (node_filesystem_size_bytes / 1024 / 1024)) > 95
+    for: 5m
+    labels:
+      severity: critical
+      customer: Dela
+    annotations:
+      summary: "{{ humanize $value }}%"
+      description: "Disk is almost full (< 5% left)"
+
+  - alert: CpuLoadWarning
+    expr: avg without(cpu) (irate(node_cpu_seconds_total{mode!="idle", job="DEV"}[1m])) * 100 > 90
+    for: 5m
+    labels:
+      severity: warning
+      customer: Dela
+    annotations:
+      summary: "{{ humanize $value }}%"
+      description: "Elevated CPU load (< 10% left)"
+
+  - alert: CpuLoadCritical
+    expr: avg without(cpu) (irate(node_cpu_seconds_total{mode!="idle", job="DEV"}[1m])) * 100 > 95
+    for: 5m
+    labels:
+      severity: critical
+      customer: Dela
+    annotations:
+      summary: "{{ humanize $value }}%"
+      description: "Critical CPU load (< 5% left)"
+
+  - alert: ServiceDown
+    expr: node_systemd_unit_state{name="wls.service", state!="active"} > 0
+    for: 15m
+    labels:
+      severity: critical
+      customer: Dela
+    annotations:
+      description: "Weblogic service is down"
