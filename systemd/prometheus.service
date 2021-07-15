@@ -7,6 +7,7 @@ After=network-online.target
 User=root
 Group=root
 Type=simple
+Restart=always
 ExecStart=/prometheus/bin/prometheus \
     --config.file=/prometheus/conf/prometheus.yml \
     --storage.tsdb.path=/prometheus/data/ \
@@ -19,11 +20,3 @@ ExecStart=/prometheus/bin/prometheus \
 
 [Install]
 WantedBy=multi-user.target
-
-
-CMD        [ "--config.file=/prometheus/conf/prometheus.yml", \
-			 "--storage.tsdb.path=/prometheus/data/", \
-			 "--storage.tsdb.retention.time=30d", \
-             "--web.console.libraries=/prometheus/console_libraries", \
-             "--web.page-title=Prometheus Container DEV", \
-             "--web.console.templates=/prometheus/consoles" ]

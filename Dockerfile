@@ -2,8 +2,8 @@ ARG  CODE_VERSION=7-slim
 ARG  PROMETHEUS_VERSION=2.28
 FROM oraclelinux:${CODE_VERSION}
 LABEL company="Charles Taylor InsureTech"
-LABEL version="1.4"
-LABEL description="Prometheus version "${PROMETHEUS_VERSION}
+LABEL version="2.0"
+LABEL description="Prometheus version $PROMETHEUS_VERSION"
 
 COPY latest/prometheus        	   /prometheus/bin/prometheus
 COPY latest/promtool          	   /prometheus/bin/promtool
@@ -17,7 +17,6 @@ COPY systemd/prometheus.service    /etc/systemd/system/prometheus.service
 RUN yum update -y && \
 	yum clean all && \
 	yum -y install systemd && \
-	yum -y install httpd.x86_64 && \
 	yum clean all && \
 	(cd /lib/systemd/system/sysinit.target.wants/; for i in ; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done) && \
 	rm -rf /lib/systemd/system/multi-user.target.wants/ && \
@@ -26,7 +25,8 @@ RUN yum update -y && \
 	rm -rf /lib/systemd/system/sockets.target.wants/udev && \
 	rm -rf /lib/systemd/system/sockets.target.wants/initctl && \
 	rm -rf /lib/systemd/system/basic.target.wants/ && \
-	rm -rf /lib/systemd/system/anaconda.target.wants/* && \	
+	rm -rf /lib/systemd/system/anaconda.target.wants/* && \
+	systemctl enable prometheus.service && \
 	/bin/cp /etc/skel/.bashrc /root/ && \
 	source /root/.bashrc && \
 	mkdir /etc/systemd/system/ \
@@ -36,5 +36,5 @@ RUN yum update -y && \
 USER       root
 EXPOSE     9090
 VOLUME     [ "/prometheus" ]
-WORKDIR    /root
-CMD ["/usr/sbin/init", "systemctl daemon-reload", "systemctl start prometheus.service", "systemctl enable prometheus.service"]
+WORKDIR    /prometheus
+CMD ["/usr/sbin/init"]
