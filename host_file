@@ -1,0 +1,21 @@
+10.0.0.4 host.docker.internal
+10.0.0.4 gateway.docker.internal
+172.18.0.1 host.docker.internal
+172.18.0.1 gateway.docker.internal
+192.168.0.53 host.docker.internal
+192.168.0.53 gateway.docker.internal
+
+192.168.0.156 host.docker.internal
+192.168.0.156 gateway.docker.internal
+192.168.0.194 host.docker.internal
+192.168.0.194 gateway.docker.internal
+192.168.21.128 host.docker.internal
+192.168.21.128 gateway.docker.internal
+192.168.21.101 host.docker.internal
+192.168.21.101 gateway.docker.internal
+# Added by Docker Desktop
+192.168.21.129 host.docker.internal
+192.168.21.129 gateway.docker.internal
+# To allow the same kube context to work on the host and the container:
+127.0.0.1 kubernetes.docker.internal
+# End of section
